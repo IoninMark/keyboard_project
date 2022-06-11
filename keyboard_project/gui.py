@@ -97,11 +97,12 @@ class MyWindow(QWidget):
 
         self.keyboard.set_keys_status(data)
         for button in self.buttons_list:
-            button.setFlat(button.key_obj.key_status)
+            if (button.isFlat() != bool(button.key_obj.get_key_status())):
+                button.setFlat(button.key_obj.key_status)
 
 
     def closeEvent(self, e: QtGui.QCloseEvent):
         e.accept()
         self.communication.usb_port.close()
-        self.communication.input_thread.exec()
-        self.app.exit()
+        # self.communication.input_thread.exec()
+        # self.app.exit()

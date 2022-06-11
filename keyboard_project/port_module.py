@@ -1,19 +1,16 @@
 import hid
 import time
-from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt5.QtCore import QObject, pyqtSignal, QMutex
 
 
 class USBPort(QObject):
 
-    def __init__(self, data):
-        QObject.__init__(self)
-        self.data_to_write = data
-    
     myFinished = False
     finished = pyqtSignal()
     data = pyqtSignal(list)
-    vendor_id = 1523
-    product_id = 1029
+    vendor_id = 5426 # 1523
+    product_id = 107 # 1029
+    lock = QMutex()
 
 
     def read(self):
@@ -37,35 +34,41 @@ class USBPort(QObject):
         print("Product: %s" % self.h.get_product_string())
 
         # enable non-blocking mode
-        self.h.set_nonblocking(1)
+        self.h.set_nonblocking(0)
 
         try:
             while not self.myFinished:
-                if self.data_to_write['data']:
-                    for item in self.data_to_write['data']:
-                        self.h.write(item)
-                        time.sleep(0.05)
-                    self.data_to_write['data'] = False
-                else:
-                    d = self.h.read(33)
-                    if d:
-                        self.data.emit(d[2:6:])
+                self.doRead()
+                
             self.h.close()
 
         except IOError as ex:
             self.h.close()
             print(ex)
             print("Reading error!")
-            print("You probably don't have the hard-coded device.")
+
+
+    def doRead(self):
+        try:    
+            self.lock.lock()
+            d = self.h.read(33, 100)
+            if d:
+                self.data.emit(d[2:6:])
+        finally:
+            self.lock.unlock()
 
 
     def write(self, data):
-        print(data)
-        print(self.h.write(data))
+        try:
+            self.lock.lock()
+            for item in data:
+                self.h.write(item)
+        finally:
+            self.lock.unlock()
 
 
     def close(self):
         self.myFinished = True
         self.finished.emit()
-        self.h.close()
+        # self.h.close()
     

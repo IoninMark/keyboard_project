@@ -1,11 +1,11 @@
 def modify_input_data(data):
     
     modified_data = []
-    status_str = ''
+    status_list = []
 
     for item in data:
-        bin_item = format(item, '08b')[:1:-1]
-        status_str += bin_item
+        for i in range(6):
+            status_list.append(item >> i & 1)
 
     button_names = [
         '0', '1', '2', '3', '4', '5',
@@ -13,9 +13,8 @@ def modify_input_data(data):
         '16', '17', '18', '19', '20', '21',
         '24', '25', '26', '27', '28', '29']
     
-    
-    for name, status in zip(button_names, status_str):
-        modified_data.append((name, int(status)))
+    for name, status in zip(button_names, status_list):
+        modified_data.append((name, status))
 
     return modified_data
 
