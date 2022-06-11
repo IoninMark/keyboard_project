@@ -1,13 +1,16 @@
 from collections import OrderedDict
 
 
-class Key():
+class Key:
 
     def __init__(self, name) -> None:
+
         self.name = name
         self.key_status = 0
         self.red_led_status = 0
         self.blue_led_status = 0
+        self.blue_led_index = 0
+        self.red_led_index = 0
 
     def get_name(self):
         return self.name
@@ -43,7 +46,7 @@ class Key():
         return self.red_led_index
 
 
-class Keyboard():
+class Keyboard:
 
     keys = OrderedDict({})
 

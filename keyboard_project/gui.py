@@ -63,6 +63,9 @@ class MyWindow(QWidget):
         self.keyboard = create_keyboard()
         self.init_ui()
 
+    def toolTipDuration(self) -> int:
+        return super().toolTipDuration()
+
     def init_ui(self):
         self.grid = QGridLayout()
         self.setLayout(self.grid)
@@ -92,7 +95,7 @@ class MyWindow(QWidget):
 
         self.keyboard.set_keys_status(data)
         for button in self.buttons_list:
-            if (button.isFlat() != bool(button.key_obj.get_key_status())):
+            if button.isFlat() != bool(button.key_obj.get_key_status()):
                 button.setFlat(button.key_obj.key_status)
 
     def closeEvent(self, e: QtGui.QCloseEvent):

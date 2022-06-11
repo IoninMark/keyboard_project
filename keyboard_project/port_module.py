@@ -9,6 +9,8 @@ class USBPort(QObject):
     data = pyqtSignal(list)
     vendor_id = 1523
     product_id = 1029
+    # vendor_id = 5426
+    # product_id = 107
     lock = QMutex()
 
     def read(self):
