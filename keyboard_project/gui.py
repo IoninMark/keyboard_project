@@ -13,9 +13,8 @@ class Button(QPushButton):
 
         self.key_obj = key_obj
         self.name = key_obj.get_name()
-        
-        super().__init__(self.name)    
 
+        super().__init__(self.name)
 
         menu_titles = ['Red', 'Blue', 'Turn Off']
         menu = QMenu()
@@ -24,13 +23,11 @@ class Button(QPushButton):
         self.setMenu(menu)
         self.add_menu(menu_titles, menu)
 
-    
     def add_menu(self, data, menu_obj):
         for element in data:
             action = menu_obj.addAction(element)
             action.setIconVisibleInMenu(False)
 
-    
     def set_led(self, menu_title):
 
         if menu_title == 'Red':
@@ -47,12 +44,12 @@ class Button(QPushButton):
             print(f"{self.name} turned off!")
             self.key_obj.set_red_led_status(0)
             self.key_obj.set_blue_led_status(0)
-        
+
         self.led_modified.emit([
             (self.key_obj.get_red_led_index(), self.key_obj.get_red_led_status()),
             (self.key_obj.get_blue_led_index(), self.key_obj.get_blue_led_status())
             ])
-    
+
 
 class MyWindow(QWidget):
 
@@ -83,14 +80,12 @@ class MyWindow(QWidget):
             self.grid.addWidget(button, x % 6, y // 6)
             x += 1
             y += 1
-        
+
         self.move(300, 150)
         self.setWindowTitle('X-keys XK-24')
 
-        
         self.communication.read_usb()
         self.communication.keys_updated.connect(self.set_buttons_state)
-       
         self.show()
 
     def set_buttons_state(self, data):
@@ -99,7 +94,6 @@ class MyWindow(QWidget):
         for button in self.buttons_list:
             if (button.isFlat() != bool(button.key_obj.get_key_status())):
                 button.setFlat(button.key_obj.key_status)
-
 
     def closeEvent(self, e: QtGui.QCloseEvent):
         e.accept()

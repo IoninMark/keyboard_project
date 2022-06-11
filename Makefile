@@ -14,7 +14,7 @@ package-install:
 	python3 -m pip install --user dist/*.whl
 
 lint:
-	poetry run flake8 keyboard_control
+	poetry run flake8 keyboard_project
 
 test:
 	poetry run pytest

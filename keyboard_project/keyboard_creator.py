@@ -12,9 +12,9 @@ def create_keyboard():
         '8', '9', '10', '11', '12', '13',
         '16', '17', '18', '19', '20', '21',
         '24', '25', '26', '27', '28', '29']
-    
+
     for key_name in key_names:
-       
+
         key = Key(key_name)
         index = int(key_name)
         key.set_blue_led_index(index)

@@ -8,9 +8,8 @@ class Communication(QObject):
     leds_updated = pyqtSignal()
     keys_updated = pyqtSignal(list)
 
-
     def get_data(self, data):
-        
+
         modified_data = modify_input_data(data)
         self.keys_updated.emit(modified_data)
 
@@ -23,7 +22,6 @@ class Communication(QObject):
         self.input_thread.finished.connect(self.input_thread.deleteLater)
         self.usb_port.data.connect(self.get_data)
         self.input_thread.start()
- 
 
     def write_usb_data(self, key_obj):
         data = generate_output_data(key_obj)

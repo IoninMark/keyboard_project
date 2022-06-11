@@ -1,5 +1,5 @@
 def modify_input_data(data):
-    
+
     modified_data = []
     status_list = []
 
@@ -12,7 +12,7 @@ def modify_input_data(data):
         '8', '9', '10', '11', '12', '13',
         '16', '17', '18', '19', '20', '21',
         '24', '25', '26', '27', '28', '29']
-    
+
     for name, status in zip(button_names, status_list):
         modified_data.append((name, status))
 
